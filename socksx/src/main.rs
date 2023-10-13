@@ -14,7 +14,7 @@ use anyhow::Result;
 use clap::Parser;
 use dotenv::dotenv;
 use itertools::Itertools;
-use log::LevelFilter;
+use log::{info, LevelFilter};
 use tokio::net::{TcpListener, TcpStream};
 use tokio::sync::Semaphore;
 use tokio::time::Instant;
@@ -37,7 +37,7 @@ struct Args {
     debug: bool,
 
     /// Host (IP) for the SOCKS server
-    #[clap(short, long, env = "HOST", default_value = "0.0.0.0")]
+    #[clap(short='H', long, env = "HOST", default_value = "0.0.0.0")]
     host: String,
 
     /// Concurrent connections limit (0=unlimted)
@@ -68,15 +68,15 @@ async fn main() -> Result<()> {
         logger.filter_level(LevelFilter::Debug).init();
     } else {
         logger.filter_level(LevelFilter::Info).init();
-
-        // Setup human-friendly panic messages
-        setup_panic!(Metadata {
-            name: "SOCKSX".into(),
-            version: env!("CARGO_PKG_VERSION").into(),
-            authors: env!("CARGO_PKG_AUTHORS").replace(":", ", ").into(),
-            homepage: env!("CARGO_PKG_HOMEPAGE").into(),
-        });
     }
+
+    // Setup human-friendly panic messages
+    setup_panic!(Metadata {
+        name: "SOCKSX".into(),
+        version: env!("CARGO_PKG_VERSION").into(),
+        authors: env!("CARGO_PKG_AUTHORS").replace(":", ", ").into(),
+        homepage: env!("CARGO_PKG_HOMEPAGE").into(),
+    });
 
     // TODO: validate host
 
@@ -142,7 +142,7 @@ async fn process(
     }
 
     // Log the time taken to process the request
-    println!("{}ms", Instant::now().saturating_duration_since(start_time).as_millis());
+    info!("Request fulfilled in {}ms", Instant::now().saturating_duration_since(start_time).as_millis());
 
     Ok(())
 }

@@ -1,5 +1,6 @@
 use std::{convert::TryInto, net::SocketAddr};
 
+use log::info;
 use anyhow::{ensure, Result};
 use tokio::io::AsyncWriteExt;
 use tokio::net::TcpStream;
@@ -58,8 +59,8 @@ impl Socks6Client {
         A: TryInto<Address, Error = anyhow::Error>,
     {
         let mut stream = TcpStream::connect(&self.proxy_addr).await?;
+        info!("Connecting to socks address at {}", stream.peer_addr()?);
         let binding = self.handshake(destination, initial_data, options, &mut stream).await?;
-
         Ok((stream, binding))
     }
 
@@ -125,7 +126,7 @@ impl Socks6Client {
         // Wait for authentication and operation reply.
         let _ = socks6::read_no_authentication(stream).await?;
         let (binding, _) = socks6::read_reply(stream).await?;
-
+  
         Ok(binding)
     }
 }

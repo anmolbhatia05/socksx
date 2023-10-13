@@ -1,6 +1,7 @@
 use std::convert::TryInto;
 use std::net::SocketAddr;
 
+use log::info;
 use anyhow::Result;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpStream;
@@ -63,7 +64,8 @@ impl Socks5Client {
         let request = Socks5Request::new(SOCKS_CMD_CONNECT, destination.try_into()?);
 
         let mut stream = TcpStream::connect(&self.proxy_addr).await?;
-
+        info!("Connecting to socks address at {}", stream.peer_addr()?);
+        
         // Enter authentication negotiation.
         let auth_method = self.negotiate_auth_method(&mut stream).await?;
         if auth_method == SOCKS_AUTH_USERNAME_PASSWORD {

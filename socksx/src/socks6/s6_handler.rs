@@ -2,6 +2,7 @@ use anyhow::Result;
 use async_trait::async_trait;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpStream;
+use log::info;
 
 use crate::{Socks6Client, SocksHandler};
 use crate::addresses::ProxyAddress;
@@ -87,6 +88,7 @@ impl SocksHandler for Socks6Handler {
         socks6::write_no_authentication(source).await?;
 
         let destination = request.destination.to_string();
+        info!("Connecting to destination - {}", destination);
         let chain = request.chain(&self.static_links)?;
 
         let mut destination = if let Some(mut chain) = chain {
