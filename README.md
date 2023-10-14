@@ -2,9 +2,19 @@
 [![License: MIT](https://img.shields.io/github/license/onnovalkering/socksx.svg)](https://github.com/onnovalkering/socksx/blob/master/LICENSE)
 [![codecov](https://codecov.io/github/anmolbhatia05/socksx/graph/badge.svg?token=FG143DXU0Y)](https://codecov.io/github/anmolbhatia05/socksx)
 ![CI](https://github.com/anmolbhatia05/socksx/actions/workflows/ci.yml/badge.svg)   
-A work-in-progress SOCKS toolkit for Rust. SOCKS5 ([rfc1928](https://tools.ietf.org/html/rfc1928)) and SOCKS6 ([draft-11](https://tools.ietf.org/html/draft-olteanu-intarea-socks-6-11)) are supported.
+A work-in-progress SOCKS toolkit for Rust. SOCKS5 ([rfc1928](https://tools.ietf.org/html/rfc1928)) and SOCKS6 ([draft-11](https://tools.ietf.org/html/draft-olteanu-intarea-socks-6-11)) are supported.    
 
-[Documentation](https://docs.rs/socksx/latest)
+## Chaining Features
+
+For `SOCKS version 5`, chaining is not supported yet. It will be added in the future.
+Hence, it works in the following way: Client -> Socks5 -> Destination
+
+For `SOCKS version 6`, chaining is supported. It means that you can chain multiple SOCKS6 proxies together.
+Apart from working like version 5, it can also be used to do this - Eg. Client -> Socks6 -> Socks6 -> Destination
+
+There is also a Python interface to socksx, see [socksx-py readme](./socksx-py/README.md).
+
+[Doc.rs documentation link](https://docs.rs/socksx/latest)
 
 ## Client Usage
 Example client usage can be found in ./socksx/examples/client.rs. To run the example, use the following command:
@@ -62,7 +72,6 @@ Check out the `docker-compose-proxy.yml` or `docker-compose-extensive.yml` file 
 ## TODO
 - [ ] make socksx work for macOS
 - [ ] support chaining in socks 5
-- [ ] add badge for coverage (coveralls)
+- [ ] update release.yml worklow and badge 
 - [ ] add badge for crates link 
-- [ ] add badge for CI status (github actions)
 - [ ] add badge for docs.rs and documentation link
