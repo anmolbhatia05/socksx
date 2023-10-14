@@ -1,6 +1,7 @@
 # SOCKS toolkit for Rust
 [![License: MIT](https://img.shields.io/github/license/onnovalkering/socksx.svg)](https://github.com/onnovalkering/socksx/blob/master/LICENSE)
-
+[![codecov](https://codecov.io/github/anmolbhatia05/socksx/graph/badge.svg?token=FG143DXU0Y)](https://codecov.io/github/anmolbhatia05/socksx)
+![CI](https://github.com/anmolbhatia05/socksx/actions/workflows/ci.yml/badge.svg)   
 A work-in-progress SOCKS toolkit for Rust. SOCKS5 ([rfc1928](https://tools.ietf.org/html/rfc1928)) and SOCKS6 ([draft-11](https://tools.ietf.org/html/draft-olteanu-intarea-socks-6-11)) are supported.
 
 [Documentation](https://docs.rs/socksx/latest)
