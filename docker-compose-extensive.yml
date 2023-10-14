@@ -22,10 +22,12 @@ services:
       net:
         ipv4_address: 172.16.238.2
 
+  # Will not work on ARM based macs
+  # To test this setup on macs, comment out this service along with the counter-2 service
   counter-1:
-    build: 
+    build:
       context: .
-      dockerfile: Dockerfile.counter
+      dockerfile: socksx-py/Dockerfile
     command: "--host 0.0.0.0"
     networks:
       net:
@@ -59,7 +61,7 @@ services:
   counter-2:
     build: 
       context: .
-      dockerfile: Dockerfile.counter
+      dockerfile: socksx-py/Dockerfile
     command: "--host 0.0.0.0"
     networks:
       net:
