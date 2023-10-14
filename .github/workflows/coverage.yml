@@ -6,26 +6,17 @@ on:
       - master
 
 jobs:
-  tarpaulin:
+  coverage:
     runs-on: ubuntu-latest
+    env:
+      CARGO_TERM_COLOR: always
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Install stable toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-
-      - name: Run Tarpaulin
-        uses: actions-rs/tarpaulin@v0.1
-        with:
-          args: '--avoid-cfg-tarpaulin --workspace --packages socksx'
-          out-type: 'Lcov'
-
-      - name: Upload to Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          path-to-lcov: ./lcov.info
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        run: rustup update stable
+      - name: Install cargo-llvm-cov
+        uses: taiki-e/install-action@cargo-llvm-cov
+      - name: Generate code coverage
+        run: cargo llvm-cov --all-features --workspace --lcov --output-path lcov.info
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
